@@ -1,0 +1,90 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../src/public/css/color.css">
+    <title>Productos</title>
+</head>
+
+<body>
+    <div class="row-md-4 d-flex align-items-center justify-content-center">
+        <ul class="nav justify-content-end">
+            <li class="nav-item">
+                <a class="nav-link text-black" href="/realtimeProducts">Formulario</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-black" href="/chat">Chat</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-black" href="/products">Productos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-black" href="/profile">Tu perfil</a>
+            </li>
+            <li>
+                 <button id="cartButton"> <img src="images/carritoImg.png" class="carritoImg"></button>
+            </li>
+        </ul>
+    </div>
+    
+    <div class="container">
+        <div class="row">
+            <div class="user">
+                <h2 class="color1">Bienvenido, {{user.role}}:{{user.name}} {{user.first_name}}!</h2>
+            </div>
+            {{#each products.payload}}
+            <article class="container col-md-4">
+                <div class="card" id="id-card">
+                    <div class="imgBx">
+                        <img src={{thumbnail}} width="150" />
+                    </div>
+                    <div class="contentBx">
+                        <h2>{{title}}</h2>
+                        <div class="color">
+                            <h3>${{price}}</h3>
+                        </div>
+                        <a href="/products/{{this._id}}"><button class="botons" type="button" id="addCart-btn">Comprar
+                                ahora</button> </a>
+                    </div>
+                </div>
+            </article>
+            {{/each}}
+        </div>
+        <div class="row my-5">
+            <div class="col">
+                <nav>
+                    <ul class="pagination justify-content-center">
+                        {{#if products.hasPrevPage}}
+                        <li class="page-item">
+                            <a class="page-link" href="{{products.prevLink}}">
+                                <<< /a>
+                        </li>
+                        {{/if}}
+                        {{#if products.hasPrevPage}}
+                        <li class="page-item">
+                            <a class="page-link" href="{{products.prevLink}}">{{products.prevPage}}</a>
+                        </li>
+                        {{/if}}
+                        <li class="page-item">
+                            <a class="page-link">{{products.page}}</a>
+                        </li>
+                        {{#if products.hasNextPage}}
+                        <li class="page-item">
+                            <a class="page-link" href="{{products.nextLink}}">{{products.nextPage}}</a>
+                        </li>
+                        {{/if}}
+                        {{#if products.hasNextPage}}
+                        <li class="page-item">
+                            <a class="page-link" href="{{products.nextLink}}">>></a>
+                        </li>
+                        {{/if}}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="../src/public/cart.js"></script>
+
+</html>

@@ -1,0 +1,259 @@
+paths:
+  /api/products/:
+    get:
+      summary: Obtiene todos los datos disponibles de los productos en la aplicación.
+      tags:
+        - Products
+      responses:
+        "200":
+          description: La operación fue exitosa! Retorna un arreglo de usuarios.
+          content:
+            application/json:
+              schema:
+                type: array
+        "500":
+          description: La operación no fue exitosa.
+          content:
+            application/json:
+              schema:
+                type: object
+    post:
+      summary: Añade un nuevo producto a la aplicación.
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Products"
+      responses:
+        "200":
+          description: Producto agregado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Products"
+        "400":
+          description: Datos de entrada inválidos
+        "500":
+          description: Error del servidor.
+
+  /api/products/{pid}:
+    get:
+      summary: Obtiene todos los datos de un producto especifico.
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: Id del producto.
+          schema:
+            $type: integer
+            example: 652b29ce8b1c2751a6e223bf
+      responses:
+        "200":
+          description: La operación fue exitosa.
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: "#/components/schemas/Products"
+        "500":
+          description: La operación no fue exitosa.
+          content:
+            application/json:
+              schema:
+                type: object
+    put:
+      summary: Actualiza los datos de un producto específico.
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto a actualizar.
+          schema:
+            $type: integer
+            example: 652d8b70cc12e3accb8f1a9b
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Products"
+      responses:
+        "200":
+          description: Producto actualizado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Products"
+        "400":
+          description: Datos de entrada inválidos.
+        "404":
+          description: Producto no encontrado.
+        "500":
+          description: Error del servidor.
+    delete:
+      summary: Elimina un producto específico.
+      tags:
+        - Products
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto a eliminar.
+          schema:
+            $type: integer
+            example: 652d8b70cc12e3accb8f1a9b
+
+      responses:
+        "200":
+          description: Producto eliminado exitosamente.
+        "404":
+          description: Producto no encontrado.
+        "500":
+          description: Error del servidor.
+
+  /api/carts/:
+    post:
+      summary: Crea un nuevo carrito.
+      tags:
+        - Cart
+      responses:
+        "200":
+          description: Carrito creado exitosamente.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  _id:
+                    type: string
+                    description: ID autogenerado del carrito.
+  /api/carts/{cid}:
+    get:
+      summary: Obtiene los detalles de un carrito específico.
+      tags:
+        - Cart
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito.
+          schema:
+            type: string
+            example: 653138a895929a5c605a22ef
+      responses:
+        "200":
+          description: La operación fue exitosa! Retorna los detalles del carrito.
+          content:
+            application/json:
+              schema:
+                type: object
+        "404":
+          description: Carrito no encontrado.
+        "500":
+          description: Error del servidor.
+
+  /api/carts/{cid}/products/{pid}:
+    post:
+      summary: Añade un producto al carrito.
+      tags:
+        - Cart
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito.
+          schema:
+            type: string
+            example: 653138a895929a5c605a22ef
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto a añadir.
+          schema:
+            type: string
+            example: 652b29ce8b1c2751a6e223bf
+      responses:
+        "200":
+          description: Producto añadido al carrito exitosamente.
+        "404":
+          description: Carrito o producto no encontrado.
+        "500":
+          description: Error del servidor.
+
+    delete:
+      summary: Elimina un producto del carrito.
+      tags:
+        - Cart
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: ID del carrito.
+          schema:
+            type: string
+            example: 653138a895929a5c605a22ef
+        - name: pid
+          in: path
+          required: true
+          description: ID del producto a eliminar
+          schema:
+            type: string
+            example: 652b29ce8b1c2751a6e223bf
+      responses:
+        "200":
+          description: Producto eliminado del carrito exitosamente.
+        "404":
+          description: Carrito o producto no encontrado.
+        "500":
+          description: Error del servidor.
+
+components:
+  schemas:
+    Products:
+      title: Products
+      type: object
+
+      properties:
+        _id:
+          type: string
+
+          description: Id autogenerado de MongoDB.
+
+        title:
+          type: String
+
+          description: Nombre del producto
+
+        description:
+          type: String
+
+          description: Descripción del producto.
+
+        price:
+          type: Number
+
+          description: Precio del producto.
+
+        code:
+          type: String
+
+          description: Código del producto.
+
+        stock:
+          type: Number
+
+        category:
+          type: String
+          description: Categoría del producto.
+
+        thumbnail:
+          type: String
+          description: Imagen del producto.

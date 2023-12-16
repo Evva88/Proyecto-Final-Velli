@@ -1,0 +1,54 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../src/public/css/color.css">
+    <title> Tu Previa
+    </title>
+</head>
+
+<body>
+    <div class="row-md-4 d-flex align-items-center justify-content-center">
+        <ul class="nav justify-content-end">
+            <li class="nav-item">
+                <a class="nav-link text-black" href="/login">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-black" href="/register">Registrarse</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-black" href="/profile">Tu perfil</a>
+            </li>
+        </ul>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 offset-md-4">
+                <h1 class="color1">Bienvenido/a</h1>
+                <h2 class="color2">Para acceder a la lista de productos, ingrese aqui</h2>
+
+                <form id="loginForm" class="color1">
+                    <div class="mb-3">
+                        <label for="email">Email</label> <input type="email" name="email" id="email">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password">Contraseña</label> <input type="password" name="password" id="password">
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" class="botons" id="btnLogIn">Login</button>
+                    </div>
+                </form>
+
+                <div class="color1">
+                    <a href="/api/sessions/github">
+                        <button class="botons">Entrar con Github</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="../src/public/js/login.js"></script>
+
+</html>

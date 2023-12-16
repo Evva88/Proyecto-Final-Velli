@@ -1,0 +1,54 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../src/public/css/color.css">
+
+  <title>Productos</title>
+</head>
+
+<body>
+  <div class="row-md-4 d-flex align-items-center justify-content-center">
+    <ul class="nav justify-content-end">
+      <li class="nav-item">
+        <a class="nav-link text-black" href="/realtimeProducts">Formulario</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-black" href="/chat">Chat</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-black" href="/products">Productos</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-black" href="/profile">Tu perfil</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-black" href="/upload/{{userId}}">Premium</a>
+      </li>
+      <li>
+        <button id="cartButton"> <img src="images/carritoImg.png" class="carritoImg"></button>
+      </li>
+    </ul>
+  </div>
+            <div class="container">
+    <h1 class="color1">Premium</h1>
+<div class="container">
+  <form action="/api/users/premium/{{userId}}" method="post" enctype="multipart/form-data">
+  <h2>Subir archivos</h2>
+  <label for="profileImage">Imagen de perfil</label>
+  <input type="file" name="profiles" id="profileImage" accept="image/*">
+  <br>
+  <label for="productImage">Imagen de producto</label>
+  <input type="file" name="products" id="productImage" accept="image/*">
+  <br>
+  <label for="document">Imagen de perfil</label>
+  <input type="file" name="document" id="document" accept=".pdf, .doc, .docx">
+  <br>
+  <button type="submit">Hazte Premium</button>
+  </form>
+  </div>
+</div>
+</div>
+</body>
+</html>

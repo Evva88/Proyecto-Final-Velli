@@ -1,0 +1,61 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../src/public/css/color.css">
+    <title>Tu Previa</title>
+</head>
+
+<body>
+      <div class="row-md-4 d-flex align-items-center justify-content-center">
+      <ul class="nav justify-content-end">
+         <li class="nav-item">
+            <a class="nav-link text-black" href="/realtimeProducts">Formulario</a>
+         </li>
+         <li class="nav-item">
+            <a class="nav-link text-black" href="/chat">Chat</a>
+         </li>
+         <li class="nav-item">
+            <a class="nav-link text-black" href="/products">Productos</a>
+         </li>
+         <li class="nav-item">
+            <a class="nav-link text-black" href="/profile">Tu perfil</a>
+         </li>
+         <li>
+            <button id="cartButton"> <img src="images/carritoImg.png" class="carritoImg"></button>
+         </li>
+      </ul>
+   </div>
+   
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 offset-md-4">
+                <h1 class="color1">Restaurar tu Contraseña</h1>
+                <form class="color1" id="reset-password-form">
+                    <div class="mb-3">
+                        <label class="form-label">Contraseña Actual</label>
+                        <input type="password" name="current-password" class="form-control" id="current-password">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Nueva Contraseña</label>
+                        <input type="password" name="new-password" class="form-control" id="new-password">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Confirmar Contraseña</label>
+                        <input type="password" name="confirm-password" class="form-control" id="confirm-password">
+                    </div>
+                    <button type="submit" class="botons" id="resetPass" name="resetPass">Restablecer</button>
+                    <div id="success-message" class="alert alert-success" style="display: none;">
+                        Contraseña cambiada con éxito.
+                    </div>
+                    <div id="error-message"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="/src/public/js/resetPassword.js"></script>
+
+</html

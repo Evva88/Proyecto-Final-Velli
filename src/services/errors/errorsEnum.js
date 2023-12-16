@@ -1,0 +1,11 @@
+const EErrors = {
+    ROUTING_ERROR: 1,
+    INVALID_TYPE_ERROR: 2,
+    DATABASE_ERROR: 3, 
+    PASSWORD_RESTORATION_ERROR: 4,
+    AUTHORIZATION_ERROR: 5,
+    MISSING_DATA: 6,
+    RENDERING_ERROR: 7,
+};
+
+export default EErrors;

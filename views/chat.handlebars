@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="../src/public/css/color.css">
+   <title>Chat</title>
+</head>
+
+<body>
+
+   <div class="row-md-4 d-flex align-items-center justify-content-center">
+      <ul class="nav justify-content-end">
+         <li class="nav-item">
+            <a class="nav-link text-black" href="/realtimeProducts">Formulario</a>
+         </li>
+         <li class="nav-item">
+            <a class="nav-link text-black" href="/chat">Chat</a>
+         </li>
+         <li class="nav-item">
+            <a class="nav-link text-black" href="/products">Productos</a>
+         </li>
+         <li class="nav-item">
+            <a class="nav-link text-black" href="/profile">Tu perfil</a>
+         </li>
+         <li>
+            <button id="cartButton"> <img src="images/carritoImg.png" class="carritoImg"></button>
+         </li>
+      </ul>
+   </div>
+
+   <div class="container">
+      <div class="row">
+         <div class="col-md-4 offset-md-4">
+            <div id="chat-container">
+               <h4 id="nombreusuario">Tu nombre...</h4>
+               <div id="chat-messages">
+
+                  <div class="message sender">
+                     <p id="chat"> </p>
+                  </div>
+
+               </div>
+               <form id="formulario">
+                  <input type="text" name="mensaje" id="mensaje" placeholder="Escribe tu mensaje">
+                  <input type="submit" value="Enviar" class="botons">
+               </form>
+            </div>
+         </div>
+      </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="../src/public/chat.js"></script>

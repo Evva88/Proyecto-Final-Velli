@@ -1,0 +1,54 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../src/public/css/color.css">
+
+  <title>Productos</title>
+</head>
+
+<body>
+  <div class="row-md-4 d-flex align-items-center justify-content-center">
+    <ul class="nav justify-content-end">
+      <li class="nav-item">
+        <a class="nav-link text-black" href="/realtimeProducts">Formulario</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-black" href="/chat">Chat</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-black" href="/products">Productos</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-black" href="/profile">Tu perfil</a>
+      </li>
+      <li>
+        <button id="cartButton"> <img src="images/carritoImg.png" class="carritoImg"></button>
+      </li>
+    </ul>
+  </div>
+
+  <div class="col-md-8 offset-md-4">
+    <div class="product-detail-container">
+      <div class="details">
+        <div class="imgBx">
+          <img src={{product.thumbnail}} width="150" />
+        </div>
+        <div class="contentBx">
+          <h1>{{product.title}}</h1>
+          <p>{{product.detalle}}</p>
+          <div class="color">
+            <p>Precio: {{product.price}}</p>
+          </div>
+          <p><button type="button" id="addCart-btn" class="botons"
+              onclick="agregarProductoAlCarrito('{{product._id}}')">Agreagar al carrito</button></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+<script src="../src/public/cart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+</html>

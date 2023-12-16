@@ -1,0 +1,17 @@
+error: Invalid credentials
+error: Ocurrio un error:  next is not a function {"stack":"TypeError: next is not a function\n    at AuthController.login (file:///C:/)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+error: Usuario no autenticado, procediendo...
+warn: Error 404: Not Found at /api/sessions/restore?user=&pass= 
+warn: Error 404: Not Found at /api/sessions/restore?user=&pass= 
+info: GET en /loggerTest - at 27/10/2023 - 21:50:25
+error: Error de alto nivel
+warn: Mensaje de advertencia
+info: Este es un log de informacion.
+http: Http log
+debug: Este es un log de informacion de developer
+info: GET en /loggerTest - at 27/10/2023 - 21:52:55
+debug: Este es un log de informacion de developer
+http: Http log
+info: Este es un log de informacion.
+warn: Mensaje de advertencia
+error: Error de alto nivel
