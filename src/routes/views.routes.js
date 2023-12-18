@@ -3,6 +3,7 @@ import ProductManager from "../dao/ProductManager.js";
 import CartManager from "../dao/cartManager.js";
 import cartController from "../controllers/cart.controller.js";
 import { userModel } from "../dao/models/user.model.js";
+import { ticketModel } from "../dao/models/ticket.model.js";
 import { passportCall } from "../midsIngreso/passAuth.js";
 
 
@@ -139,6 +140,25 @@ viewsRouter.get('/reset-password/:token', async (req, res) => {
     return res.redirect('/restore');
   }
   res.render('reset-password', { token });
+});
+
+viewsRouter.get('/compra', async (req, res) => {
+  try {
+    // Consulta la base de datos para obtener los datos del ticket
+    const tickets = await ticketModel.find({ /* ... tus condiciones de búsqueda ... */ });
+
+    // Verifica si se encontraron tickets
+    if (tickets && tickets.length > 0) {
+      // Envía los tickets como respuesta a la vista
+      res.render('confirmacionCompra', { tickets });
+    } else {
+      console.error('No se encontraron tickets en la base de datos');
+      res.status(404).send('No se encontraron tickets');
+    }
+  } catch (error) {
+    console.error('Error al renderizar la vista de compra:', error);
+    res.status(500).send('Error interno del servidor');
+  }
 });
 
 viewsRouter.get("/faillogin", (req, res) => {

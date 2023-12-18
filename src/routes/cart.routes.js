@@ -41,4 +41,5 @@ cartsRouter.post("/:cid/purchase", (req, res, next) => {
       return res.status(500).json({ error: "Error interno del servidor" });
     }
   });
+  
 export default cartsRouter;

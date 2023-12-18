@@ -35,6 +35,14 @@ const agregarProductoAlCarrito = async (pid) => {
       console.log("Error al agregar el producto al carrito");
       return;
     } 
+    
+    Swal.fire({
+      icon: 'success',
+      title: 'Producto agregado al carrito',
+      showConfirmButton: false,
+      timer: 1500,  // Cierra automáticamente después de 1.5 segundos
+    });
+
     console.log("Se agrego el producto al carrito");
   } catch (error) {
     console.log("Error en agregar el Producto al Carrito! " + error);
@@ -61,15 +69,15 @@ async function realizarCompra() {
       console.error("Error al realizar la compra");
       return;
     }
-    
+    window.location.href = "/compra";
     console.log("Compra realizada con éxito"); 
 
   } catch (error) {
+  
     console.error("Error al realizar la compra", error);
   }
 
 }
-
 
 document.addEventListener("DOMContentLoaded", () => {
   const cartButton = document.getElementById("cartButton");

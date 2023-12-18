@@ -1,0 +1,50 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../src/public/css/color.css">
+    <title>Compra</title>
+</head>
+
+<body>
+    <div class="row-md-4 d-flex align-items-center justify-content-center">
+        <ul class="nav justify-content-end">
+            <li class="nav-item">
+                <a class="nav-link text-black" href="/realtimeProducts">Formulario</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-black" href="/chat">Chat</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-black" href="/products">Productos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-black" href="/profile">Tu perfil</a>
+            </li>
+        </ul>
+    </div>
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Confirmación de Compra</h2>
+    {{#each tickets}}
+    <div class="card mt-4">
+        <div class="card-header">
+            Detalles de la Compra
+        </div>
+        <div class="card-body">
+            <p class="card-text">¡Gracias por tu compra! Tu número de ticket es: <strong id="ticket">{{this.code}}</strong></p>
+        </div>
+    </div>
+    {{/each}}
+</div>
+
+
+</body>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+</html>
