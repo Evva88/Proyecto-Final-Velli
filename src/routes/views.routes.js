@@ -4,17 +4,17 @@ import CartManager from "../dao/cartManager.js";
 import cartController from "../controllers/cart.controller.js";
 import { userModel } from "../dao/models/user.model.js";
 import { ticketModel } from "../dao/models/ticket.model.js";
-import { passportCall } from "../midsIngreso/passAuth.js";
-
+import UserController from "../controllers/user.controller.js";
+import { passportCall, authorization } from "../midsIngreso/passAuth.js";
 
 const checkSession = (req, res, next) => {
-  req.logger.info('Checking session:', req.session);
+  req.logger.info("Checking session:", req.session);
 
   if (req.session && req.session.user) {
-    req.logger.info('Session exists:', req.session.user);
+    req.logger.info("Session exists:", req.session.user);
     next();
   } else {
-    req.logger.warn('No session found, redirecting to /login');
+    req.logger.warn("No session found, redirecting to /login");
     res.redirect("/login");
   }
 };
@@ -31,15 +31,16 @@ const checkAlreadyLoggedIn = (req, res, next) => {
 const viewsRouter = express.Router();
 const PM = new ProductManager();
 const CM = new CartManager();
+const userController = new UserController();
 
 async function loadUserCart(req, res, next) {
   if (req.session && req.session.user) {
     const cartId = req.session.user.cart;
-    req.logger.info('Cart ID:', cartId);  
+    req.logger.info("Cart ID:", cartId);
 
     const cartManager = new CartManager();
     const cart = await cartManager.getCart(cartId);
-    req.logger.info('Cart:', cart); 
+    req.logger.info("Cart:", cart);
 
     req.cart = cart;
   }
@@ -48,13 +49,13 @@ async function loadUserCart(req, res, next) {
 
 viewsRouter.get("/", checkSession, async (req, res) => {
   const products = await PM.getProducts(req.query);
-  res.render("home", { products});
+  res.render("home", { products });
 });
 
 viewsRouter.get("/products", checkSession, async (req, res) => {
   const products = await PM.getProducts(req.query);
   const user = req.session.user;
-  
+
   req.logger.info(user);
   res.render("products", { products, user });
 });
@@ -104,10 +105,10 @@ viewsRouter.get("/register", checkAlreadyLoggedIn, (req, res) => {
 });
 
 viewsRouter.get("/profile", checkSession, (req, res) => {
-  console.log('Inside /profile route');
+  console.log("Inside /profile route");
 
   const userData = req.session.user;
-  req.logger.info('User data:', userData);
+  req.logger.info("User data:", userData);
 
   res.render("profile", { user: userData, userId: userData.id });
 });
@@ -119,47 +120,50 @@ viewsRouter.get("/restore", async (req, res) => {
 viewsRouter.get("/upload/:uid", (req, res) => {
   const userId = req.params.uid;
   console.log("ID de usuario: ", userId);
-  res.render("uploads", {userId});
+  res.render("uploads", { userId });
 });
 
-viewsRouter.get('/premium/:uid', (req, res) => {
+viewsRouter.get("/premium/:uid", (req, res) => {
   const userId = req.params.uid;
   console.log("ID de usuario: ", userId);
-  res.render("premium", {userId});
+  res.render("premium", { userId });
 });
 
-
-viewsRouter.get('/reset-password/:token', async (req, res) => {
+viewsRouter.get("/reset-password/:token", async (req, res) => {
   const { token } = req.params;
   const user = await userModel.findOne({
     resetPasswordToken: token,
-    resetPasswordExpires: { $gt: Date.now() }
+    resetPasswordExpires: { $gt: Date.now() },
   });
 
   if (!user) {
-    return res.redirect('/restore');
+    return res.redirect("/restore");
   }
-  res.render('reset-password', { token });
+  res.render("reset-password", { token });
 });
 
-viewsRouter.get('/compra', async (req, res) => {
+viewsRouter.get("/compra", async (req, res) => {
   try {
-    // Consulta la base de datos para obtener los datos del ticket
-    const tickets = await ticketModel.find({ /* ... tus condiciones de búsqueda ... */ });
+    const tickets = await ticketModel.find({ purchased: true });
 
-    // Verifica si se encontraron tickets
     if (tickets && tickets.length > 0) {
-      // Envía los tickets como respuesta a la vista
-      res.render('confirmacionCompra', { tickets });
+      res.render("confirmacionCompra", { tickets });
     } else {
-      console.error('No se encontraron tickets en la base de datos');
-      res.status(404).send('No se encontraron tickets');
+      console.error("No se encontraron tickets en la base de datos");
+      res.status(404).send("No se encontraron tickets");
     }
   } catch (error) {
-    console.error('Error al renderizar la vista de compra:', error);
-    res.status(500).send('Error interno del servidor');
+    console.error("Error al renderizar la vista de compra:", error);
+    res.status(500).send("Error interno del servidor");
   }
 });
+
+viewsRouter.get(
+  "/userAdmin",
+  passportCall("jwt"),
+  authorization(["admin"]),
+  userController.getUserManagment.bind(userController)
+);
 
 viewsRouter.get("/faillogin", (req, res) => {
   res.status(401).json({
@@ -174,4 +178,5 @@ viewsRouter.get("/failregister", async (req, res) => {
     message: "Error! No se pudo registar el Usuario!",
   });
 });
+
 export default viewsRouter;

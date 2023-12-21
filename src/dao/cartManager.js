@@ -17,7 +17,7 @@ class CartManager {
   }
 
   async getCart(id) {
-    console.log('Getting cart with ID:', id);  
+    console.log("Getting cart with ID:", id);
     if (this.validateId(id)) {
       const cart = await cartModel.findOne({ _id: id }).lean();
       console.log("Cart: ", cart);
@@ -52,9 +52,9 @@ class CartManager {
           };
         }
 
-        if (product.stock < quantity) { 
+        if (product.stock < quantity) {
           return { status: "error", message: "Stock insuficiente!" };
-      }
+        }
 
         const updateResult = await cartModel.updateOne(
           { _id: cid, "products.product": pid },

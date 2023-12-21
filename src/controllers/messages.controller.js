@@ -2,7 +2,7 @@ import nodemailer from "nodemailer";
 import { GMAIL_PASSWORD, GMAIL_USER } from "../config/configs.js";
 import __dirname from "../../utils.js";
 
-const transporter = nodemailer.createTransport({
+export const transporter = nodemailer.createTransport({
   service: "gmail",
   port: 587,
   auth: {
@@ -10,8 +10,8 @@ const transporter = nodemailer.createTransport({
     pass: GMAIL_PASSWORD,
   },
   tls: {
-    rejectUnauthorized: false
-  }
+    rejectUnauthorized: false,
+  },
 });
 
 transporter.verify(function (error, success) {
@@ -42,7 +42,7 @@ const mailOptionsWithAttachments = {
   attachments: [
     {
       filename: "Tu Previa",
-      path: __dirname+'/src/public/images/',
+      path: __dirname + "/src/public/images/",
       cid: "Logo",
     },
   ],
@@ -60,12 +60,10 @@ export const sendEmail = (req, res) => {
     });
   } catch (error) {
     req.logger.error(error);
-    res
-      .status(500)
-      .send({
-        error: error,
-        message: "No se pudo enviar el email desde:" + config.gmailAccount,
-      });
+    res.status(500).send({
+      error: error,
+      message: "No se pudo enviar el email desde:" + config.gmailAccount,
+    });
   }
 };
 
@@ -84,12 +82,37 @@ export const sendEmailWithAttachments = (req, res) => {
     );
   } catch (error) {
     req.logger.error(error);
-    res
-      .status(500)
-      .send({
-        error: error,
-        message: "No se pudo enviar el email desde:" + config.gmailAccount,
-      });
+    res.status(500).send({
+      error: error,
+      message: "No se pudo enviar el email desde:" + config.gmailAccount,
+    });
   }
 };
 
+export const sendEmailForDeletedUsers = (email, message, title, callback) => {
+  let finalEmail = email ? email : GMAIL_USER;
+  try {
+    let result = transporter.sendMail(
+      mailOptionsDelete(finalEmail, title, message),
+      (error, info) => {
+        if (error) {
+          function doSomething(callback) {
+            callback({
+              message: "Error",
+              payload: error,
+              code: 400,
+            });
+          }
+          function myCallback() {
+            console.log("El callback se ejecutó.");
+          }
+          doSomething(myCallback);
+        } else {
+          callback(null, { message: "Success!", payload: info });
+        }
+      }
+    );
+  } catch (error) {
+    console.log(error);
+  }
+};

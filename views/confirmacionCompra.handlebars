@@ -25,19 +25,20 @@
         </ul>
     </div>
 
-<div class="container mt-5">
-    <h2 class="text-center mb-4">Confirmación de Compra</h2>
-    {{#each tickets}}
-    <div class="card mt-4">
-        <div class="card-header">
-            Detalles de la Compra
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Confirmación de Compra</h2>
+        {{#each tickets}}
+        <div class="card mt-4">
+            <div class="card-header">
+                Detalles de la Compra
+            </div>
+            <div class="card-body">
+                <p class="card-text">¡Gracias por tu compra! Tu número de ticket es: <strong
+                        id="ticket">{{this.code}}</strong></p>
+            </div>
         </div>
-        <div class="card-body">
-            <p class="card-text">¡Gracias por tu compra! Tu número de ticket es: <strong id="ticket">{{this.code}}</strong></p>
-        </div>
+        {{/each}}
     </div>
-    {{/each}}
-</div>
 
 
 </body>

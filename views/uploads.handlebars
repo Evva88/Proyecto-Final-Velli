@@ -32,42 +32,44 @@
     </ul>
   </div>
 
-<div class="container">
-     <div class="row">
-    <form action="/api/users/{{userId}}/documents" id="uploadForm" target="_blank" method="post" enctype="multipart/form-data">
+  <div class="container">
+    <div class="row">
+      <form action="/api/users/{{userId}}/documents" id="uploadForm" target="_blank" method="post"
+        enctype="multipart/form-data">
         <h3 class="color1">Datos</h3>
-         <label for="profileImage" class="color1">Imagen de perfil</label>
-         <input type="file" name="profiles" id="profileImage" accept="image/*">
-         <br>
-         <label for="productImage" class="color1">Imagen de producto</label>
-         <input type="file" name="products" id="productImage" accept="image/*">
-         <br>
-         <label for="document" class="color1">Documento</label>
-         <input type="file" name="document" id="document" accept=".pdf,.doc,.docx">
-         <br>
-         <button type="submit" class="botons">Subir</button>
-    </form>
-    <div id="uploadMessage"></div>
-    <form action="/api/users/{{userId}}/premium-documents" id="uploadPremiumForm" method="post" enctype="multipart/form-data">
+        <label for="profileImage" class="color1">Imagen de perfil</label>
+        <input type="file" name="profiles" id="profileImage" accept="image/*">
+        <br>
+        <label for="productImage" class="color1">Imagen de producto</label>
+        <input type="file" name="products" id="productImage" accept="image/*">
+        <br>
+        <label for="document" class="color1">Documento</label>
+        <input type="file" name="document" id="document" accept=".pdf,.doc,.docx">
+        <br>
+        <button type="submit" class="botons">Subir</button>
+      </form>
+      <div id="uploadMessage"></div>
+      <form action="/api/users/{{userId}}/premium-documents" id="uploadPremiumForm" method="post"
+        enctype="multipart/form-data">
         <h3 class="color1">Premium Data</h3>
-         <label for="identificationDocument" class="color1">Identificacion</label>
-         <input type="file" name="identificationDocument" id="identificationDocument" accept="image/*, .pdf">
-         <br>
-         <label for="domicileProofDocument" class="color1">Comprobante de domicilio</label>
-         <input type="file" name="domicileProofDocument" id="domicileProofDocument" accept="image/*, .pdf">
-         <br>
-         <label for="accountStatementDocument"class="color1">Comprobante de estado de cuenta</label>
-         <input type="file" name="accountStatementDocument" id="accountStatementDocument" accept="image/*, .pdf">
-         <br>
-         <button type="submit" class="botons">Subir</button>
-    </form>
-    <div id="uploadPremiumMessage">
-     <form action="/api/users/premium/{{userId}}" method="post">
-      <div class="color1"><button class="botons" type="submit">Hazte Premium</button></div>
-     </form>
+        <label for="identificationDocument" class="color1">Identificacion</label>
+        <input type="file" name="identificationDocument" id="identificationDocument" accept="image/*, .pdf">
+        <br>
+        <label for="domicileProofDocument" class="color1">Comprobante de domicilio</label>
+        <input type="file" name="domicileProofDocument" id="domicileProofDocument" accept="image/*, .pdf">
+        <br>
+        <label for="accountStatementDocument" class="color1">Comprobante de estado de cuenta</label>
+        <input type="file" name="accountStatementDocument" id="accountStatementDocument" accept="image/*, .pdf">
+        <br>
+        <button type="submit" class="botons">Subir</button>
+      </form>
+      <div id="uploadPremiumMessage">
+        <form action="/api/users/premium/{{userId}}" method="post">
+          <div class="color1"><button class="botons" type="submit">Hazte Premium</button></div>
+        </form>
+      </div>
     </div>
-    </div>
-</div>
+  </div>
 
 </body>
 

@@ -1,11 +1,16 @@
-import passport from "passport"
-import local from "passport-local"
-import { userModel } from "../dao/models/user.model.js"
-import {createHash,isValidPassword} from "../midsIngreso/bcrypt.js"
-import jwt from "passport-jwt"
-import CartService from "../services/cart.service.js"
-import UserService from "../services/user.service.js"
-import { ADMIN_EMAIL, ADMIN_PASSWORD, PREMIUM_EMAIL, PREMIUM_PASSWORD } from "../config/configs.js"
+import passport from "passport";
+import local from "passport-local";
+import { userModel } from "../dao/models/user.model.js";
+import { createHash, isValidPassword } from "../midsIngreso/bcrypt.js";
+import jwt from "passport-jwt";
+import CartService from "../services/cart.service.js";
+import UserService from "../services/user.service.js";
+import {
+  ADMIN_EMAIL,
+  ADMIN_PASSWORD,
+  PREMIUM_EMAIL,
+  PREMIUM_PASSWORD,
+} from "../config/configs.js";
 
 const userService = new UserService();
 const cartService = new CartService();
@@ -15,14 +20,19 @@ const LocalStrategy = local.Strategy;
 
 //Estrategias de Passport
 
-const initializePassport = ()=>{
-  passport.use("register", new LocalStrategy({ passReqToCallback: true, usernameField: "email" },
+const initializePassport = () => {
+  passport.use(
+    "register",
+    new LocalStrategy(
+      { passReqToCallback: true, usernameField: "email" },
       async (req, username, password, done) => {
         const { first_name, last_name, email, age } = req.body;
         try {
           let user = await userModel.findOne({ email: username });
           if (user) {
-            req.logger.warn("El usuario " + email + " ya se encuentra registrado!");
+            req.logger.warn(
+              "El usuario " + email + " ya se encuentra registrado!"
+            );
             return done(null, false);
           }
           user = {
@@ -31,18 +41,21 @@ const initializePassport = ()=>{
             email,
             age,
             password: createHash(password),
-            rol
+            rol,
           };
           req.logger.info("Rol antes de la asignación:", user.role);
           if (user.email == ADMIN_EMAIL && password === ADMIN_PASSWORD) {
             req.logger.info("Asignando rol de admin");
-            user.role = 'admin';
-          } else if (user.email == PREMIUM_EMAIL && password === PREMIUM_PASSWORD){
+            user.role = "admin";
+          } else if (
+            user.email == PREMIUM_EMAIL &&
+            password === PREMIUM_PASSWORD
+          ) {
             req.logger.info("Asignando rol de premium");
-            user.role = 'premium';
+            user.role = "premium";
           } else {
             req.logger.info("Asignando rol de usuario");
-            user.role = 'user';
+            user.role = "user";
           }
           req.logger.info("Rol después de la asignación:", user.role);
           let result = await userModel.create(user);
@@ -51,14 +64,13 @@ const initializePassport = ()=>{
             return done(null, result);
           }
         } catch (error) {
-         
           return done(error);
         }
       }
     )
   );
 
-passport.use(
+  passport.use(
     "login",
     new LocalStrategy(
       { usernameField: "email", passwordField: "password" },
@@ -75,12 +87,11 @@ passport.use(
             return done(null, false, { message: "Contraseña incorrecta." });
           }
           if (!user.cart) {
-       
-            const cart = await cartService.createCart()
-    
+            const cart = await cartService.createCart();
+
             user.cart = cart._id;
-            await userService.updateUser(username, user)
-        }
+            await userService.updateUser(username, user);
+          }
           return done(null, user);
         } catch (error) {
           return done(error);
@@ -89,40 +100,47 @@ passport.use(
     )
   );
 
-passport.use("jwt", new JWTStrategy ({jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]), 
-    secretOrKey:"GALL2T1TAD2L1MON", }, 
-    async(jwt_payload, done)=>{
+  passport.use(
+    "jwt",
+    new JWTStrategy(
+      {
+        jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
+        secretOrKey: "GALL2T1TAD2L1MON",
+      },
+      async (jwt_payload, done) => {
         try {
-            const user = await userModel.findOne({email: jwt_payload.email});
-            if(!user){
-                return done (null, false, {message: "Usuario no encontrado en nuestra base de datos"})
-            }
-            return done (null, user);
+          const user = await userModel.findOne({ email: jwt_payload.email });
+          if (!user) {
+            return done(null, false, {
+              message: "Usuario no encontrado en nuestra base de datos",
+            });
+          }
+          return done(null, user);
         } catch (error) {
-            return done (error);
+          return done(error);
         }
-    }))
-}
+      }
+    )
+  );
+};
 
 passport.serializeUser((user, done) => {
-    done(null, user._id)
-})
+  done(null, user._id);
+});
 
-passport.deserializeUser(async(id, done) => {
-    let user = await userModel.findById(id)
-    done(null, user)
-})
+passport.deserializeUser(async (id, done) => {
+  let user = await userModel.findById(id);
+  done(null, user);
+});
 
 export default initializePassport;
 
 const cookieExtractor = (req) => {
-    let token = null;
-  
-    if (req && req.cookies) {
-      token = req.cookies["coderCookieToken"];
-    }
-  
-    return token;
-  };
+  let token = null;
 
+  if (req && req.cookies) {
+    token = req.cookies["coderCookieToken"];
+  }
 
+  return token;
+};

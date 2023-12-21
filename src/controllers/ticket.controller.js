@@ -1,4 +1,4 @@
-import TicketService from '../services/tickets.service.js';
+import TicketService from "../services/tickets.service.js";
 
 class TicketController {
   constructor() {
@@ -17,26 +17,22 @@ class TicketController {
         throw new Error("Error al crear el ticket");
       }
     } catch (error) {
-      console.error('Error específico en la creación del ticket:', error);
+      console.error("Error específico en la creación del ticket:", error);
       throw error;
     }
   }
 
   async getTickets(req, res) {
     try {
-      // Llama a la función correspondiente en tu servicio para obtener los tickets
       const tickets = await this.ticketService.getTickets();
 
       // Envía los tickets como respuesta
       res.json(tickets);
     } catch (error) {
-      console.error('Error al obtener los tickets:', error);
-      res.status(500).send('Error interno del servidor');
+      console.error("Error al obtener los tickets:", error);
+      res.status(500).send("Error interno del servidor");
     }
   }
 }
 
 export default new TicketController();
-
-
-  

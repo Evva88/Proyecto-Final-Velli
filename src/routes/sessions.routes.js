@@ -21,7 +21,10 @@ serviceRouter.post("/login", (req, res) => authController.login(req, res));
 
 serviceRouter.post("/register", userController.register.bind(userController));
 
-serviceRouter.get("/restore", userController.restorePassword.bind(userController));
+serviceRouter.get(
+  "/restore",
+  userController.restorePassword.bind(userController)
+);
 
 serviceRouter.get(
   "/github",
@@ -39,19 +42,24 @@ serviceRouter.get(
 );
 serviceRouter.post("/logout", (req, res) => authController.logout(req, res));
 
-serviceRouter.get("/current", passportCall("jwt"), authorization("user"), (req, res) => {
-  req.logger.info(req.cookies); 
-  userController.currentUser(req, res);
-});
+serviceRouter.get(
+  "/current",
+  passportCall("jwt"),
+  authorization("user"),
+  (req, res) => {
+    req.logger.info(req.cookies);
+    userController.currentUser(req, res);
+  }
+);
 
 serviceRouter.use(bodyParser.urlencoded({ extended: true }));
 
-serviceRouter.post('/restore-password', async (req, res) => {
-  authController.restorePassword(req, res)
+serviceRouter.post("/restore-password", async (req, res) => {
+  authController.restorePassword(req, res);
 });
 
-serviceRouter.post('/reset-password/:token', async (req, res) => {
-  authController.resetPassword(req, res)
+serviceRouter.post("/reset-password/:token", async (req, res) => {
+  authController.resetPassword(req, res);
 });
 
 serviceRouter.use(errorHandler);

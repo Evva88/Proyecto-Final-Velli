@@ -1,0 +1,195 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../src/public/css/color.css">
+
+    <title>Productos</title>
+</head>
+
+<body>
+    <div class="row-md-4 d-flex align-items-center justify-content-center">
+        <ul class="nav justify-content-end">
+            <li class="nav-item">
+                <a class="nav-link text-black" href="/realtimeProducts">Formulario</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-black" href="/chat">Chat</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-black" href="/products">Productos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-black" href="/profile">Tu perfil</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-black" href="/userAdmin">Administrador</a>
+            </li>
+            <li>
+                <button id="cartButton"> <img src="images/carritoImg.png" class="carritoImg"></button>
+            </li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <div class="m-2">
+            <button type="submit" id="deleteInactive" class="botons">
+                <script>
+                    document.getElementById("deleteInactive").addEventListener("click", function () {
+                        deleteInactiveUsers();
+                    });
+                </script>
+                Borrar usuarios inactivos
+            </button>
+        </div>
+        <u1>
+            {{#each users}}
+            <div class="accordion m-2" id="accordionPannelStayOpen{{email}}">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-h{{email}}">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#panelsStayOpen-{{email}}" aria-expanded="true"
+                            aria-controls="panelsStayOpen-{{email}}">
+                            <strong>Email: {{email}} </strong>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-{{email}}" class="accordion-collapse collapse"
+                        aria-labelledby="panelsStayOpen-h{{email}}">
+                        <div class="accordion-body">
+                            Nombre: {{first_name}}
+                            <br>
+                            Apellido: {{last_name}}
+                            <br>
+                            Edad: {{age}}
+                            <br>
+                            Rol: <code>{{role}}</code>
+                            <br>
+                            Ultima coneccion: {{last_connection}}
+                            <br>
+                            <div class="m-2">
+                                <button type="submit" id="changeRole-{{email}}" class="botons">
+                                    <script>
+                                        document.getElementById("changeRole-{{email}}").addEventListener("click", function () {
+                                            changeRole("{{email}}");
+                                        });
+                                    </script>
+                                    Cambiar Rol
+                                </button>
+                                <button type="submit" id="delete-{{email}}" class="botons">
+                                    <script>
+                                        document.getElementById("delete-{{email}}").addEventListener("click", function () {
+                                            deleteUser("{{email}}");
+                                        });
+                                    </script>
+                                    Borrar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+        </u1>
+        <div class="toast-container postion-fixed bottom-0 end-0 p-3">
+            <div id="toastNotPremium" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-body">
+                    El usuario no puede convertirse en premium si no adjunta la documentacion primero en el sector
+                    "Premium".
+                </div>
+            </div>
+        </div>
+        <div class="toast-container postion-fixed bottom-0 end-0 p-3">
+            <div id="toastNotDelete" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-body">
+                    El usuario no se puede eliminar.
+                </div>
+            </div>
+        </div>
+        <div class="toast-container postion-fixed bottom-0 end-0 p-3">
+            <div id="toastNotDeleteInactive" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-body">
+                    El usuario inactivo no se puede eliminar.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function changeRole(userId) {
+            fetch(`/api/users/update/${userId}`, {
+                method: 'POST',
+            }).then(res => {
+                if (res.ok) {
+                    return res.json();
+                } else {
+                    throw new Error('Algo salio mal');
+                }
+            }).then(data => {
+                console.log(data);
+                window.location.reload();
+            }).catch(err => {
+                console.log(err);
+                Swal.fire({
+                    icon: "error",
+                    text: 'El usuario debe ingresar los documentos requeridos en el sector de Premium para poder cambiar de rol'
+                });
+            });
+        };
+
+        function deleteUser(getUser) {
+            console.log("En delete");
+            fetch('/api/users/' + getUser, {
+                method: 'DELETE',
+            })
+                .then(res => {
+                    if (res.ok) {
+                        return res.json();
+                    } else {
+                        throw new Error(`La respuesta del servidor no es exitosa. Estado: ${res.status}`);
+                    }
+                })
+                .then(data => {
+                    console.log(data);
+                    Swal.fire({
+                        icon: "success",
+                        text: "Usuario eliminado con éxito",
+                    }).then(() => {
+                        window.location.reload();
+                    });
+                })
+                .catch(err => {
+                    console.error(err);
+                    Swal.fire({
+                        icon: "error",
+                        text: `No se pudo eliminar al usuario. Detalles: ${err.message}`,
+                    });
+                });
+        };
+
+        function deleteInactiveUsers() {
+            fetch('/api/users/', {
+                method: 'DELETE',
+            }).then(res => {
+                if (res.ok) {
+                    return res.json();
+                } else {
+                    throw new Error('Algo salio mal');
+                }
+            }).then(data => {
+                console.log(data);
+                window.location.reload();
+            }).catch(err => {
+                console.log(err);
+                Swal.fire({
+                    icon: "error",
+                    text: 'No se pudo eliminar a los usuarios inactivos'
+                });
+            });
+        };
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+
+</html>

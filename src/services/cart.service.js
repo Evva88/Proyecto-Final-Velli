@@ -80,7 +80,7 @@ class CartService {
     if (result) {
       return { status: "ok", message: "El carrito se vació correctamente!" };
     } else {
-      throw new Error('Error! No se pudo vaciar el Carrito!');
+      throw new Error("Error! No se pudo vaciar el Carrito!");
     }
   }
 }

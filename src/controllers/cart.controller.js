@@ -15,16 +15,16 @@ class CartController {
       res.status(201).json({
         status: "success",
         message: "El carrito creado correctamente",
-        cartId: newCart._id, 
+        cartId: newCart._id,
         payload: newCart,
       });
-      req.logger.info("Carrito creado: ", newCart)
+      req.logger.info("Carrito creado: ", newCart);
     } catch (error) {
       res.status(500).send({
         status: "error",
         message: error.message,
       });
-      req.logger.error("Error al crear el carrito: ", error)
+      req.logger.error("Error al crear el carrito: ", error);
     }
   }
 
@@ -35,13 +35,13 @@ class CartController {
         status: "success",
         cart: cart,
       });
-      req.logger.info("Carrito obtenido: ", cart)
+      req.logger.info("Carrito obtenido: ", cart);
     } catch (error) {
       res.status(400).send({
         status: "error",
         message: error.message,
       });
-      req.logger.error("Error al obtener el carrito: ", error)
+      req.logger.error("Error al obtener el carrito: ", error);
     }
   }
 
