@@ -19,6 +19,35 @@ class TicketService {
     console.log("Ticket creado:", ticket);
     return ticket;
   }
+  async getTickets() {
+    try {
+      const tickets = await ticketModel.find();
+      return tickets;
+    } catch (error) {
+      console.log(error);
+      throw new Error("Error al obtener los tickets desde el servicio");
+    }
+  }
+
+  async getTicketByNumber(ticketNumber) {
+    try {
+      if (!ticketNumber) {
+        throw new Error("Número de ticket no proporcionado.");
+      }
+
+      const ticket = await ticketModel.findOne({ code: ticketNumber });
+
+      if (!ticket) {
+        console.error(`No se encontró el ticket con el número: ${ticketNumber}`);
+        throw new Error("Ticket no encontrado.");
+      }
+
+      return ticket;
+    } catch (error) {
+      console.error("Error al buscar el ticket:", error);
+      throw error;
+    }
+  }
 }
 
 export default TicketService;

@@ -6,6 +6,9 @@ import { userModel } from "../dao/models/user.model.js";
 import { ticketModel } from "../dao/models/ticket.model.js";
 import UserController from "../controllers/user.controller.js";
 import { passportCall, authorization } from "../midsIngreso/passAuth.js";
+import { TICKET_NUMBER } from "../config/configs.js";
+import TicketService from "../services/tickets.service.js";
+
 
 const checkSession = (req, res, next) => {
   req.logger.info("Checking session:", req.session);
@@ -32,6 +35,7 @@ const viewsRouter = express.Router();
 const PM = new ProductManager();
 const CM = new CartManager();
 const userController = new UserController();
+const ticketService = new TicketService();
 
 async function loadUserCart(req, res, next) {
   if (req.session && req.session.user) {
@@ -142,21 +146,22 @@ viewsRouter.get("/reset-password/:token", async (req, res) => {
   res.render("reset-password", { token });
 });
 
-viewsRouter.get("/compra", async (req, res) => {
+viewsRouter.get('/compra', async (req, res) => {
   try {
-    const tickets = await ticketModel.find({ purchased: true });
+    const tickets = await ticketService.getTickets(); // Ejemplo de uso, ajusta según tu lógica
 
     if (tickets && tickets.length > 0) {
-      res.render("confirmacionCompra", { tickets });
+      res.render('confirmacionCompra', { tickets });
     } else {
-      console.error("No se encontraron tickets en la base de datos");
-      res.status(404).send("No se encontraron tickets");
+      console.error('No se encontraron tickets en la base de datos');
+      res.status(404).send('No se encontraron tickets');
     }
   } catch (error) {
-    console.error("Error al renderizar la vista de compra:", error);
-    res.status(500).send("Error interno del servidor");
+    console.error('Error al renderizar la vista de compra:', error);
+    res.status(500).send('Error interno del servidor');
   }
 });
+
 
 viewsRouter.get(
   "/userAdmin",
